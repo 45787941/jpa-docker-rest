@@ -1,0 +1,15 @@
+version: '2.1'
+services:
+    postgres:
+        image: postgres:latest
+        env_file: 
+            - compose.env
+        ports:
+            - "5432:5432"
+    app:
+        image: cltkevin/test-docker:appDB
+        links:
+            - postgres
+        depends_on:
+            postgres:
+                condition: service_started
