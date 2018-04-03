@@ -1,20 +1,38 @@
 package fr.univtln.kcollot171.executable;
 
+import org.glassfish.grizzly.http.server.HttpServer;
 import fr.univtln.kcollot171.utils.PersonnePK;
 import fr.univtln.kcollot171.data.Chenil;
 import fr.univtln.kcollot171.data.Chien;
 import fr.univtln.kcollot171.data.Pathologie;
 import fr.univtln.kcollot171.data.Personne;
+import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
+import org.glassfish.jersey.server.ResourceConfig;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import java.io.IOException;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Test2 {
-    public static void main(String[] args) {
+    public static final String BASE_URI = "http://localhost:8080/";
+
+    public static HttpServer startServer() {
+        // create a resource config that scans for JAX-RS resources and providers
+        // in fr.univtln.kcollot171 package
+        final ResourceConfig rc = new ResourceConfig().packages("fr.univtln.kcollot171");
+
+        // create and start a new instance of grizzly http server
+        // exposing the Jersey application at BASE_URI
+        return GrizzlyHttpServerFactory.createHttpServer(URI.create(BASE_URI), rc);
+    }
+
+
+    public static void main(String[] args) throws IOException {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("testpostgresqllocal");
         EntityManager em = emf.createEntityManager();
 
@@ -99,7 +117,11 @@ public class Test2 {
         Personne proprio1 = (Personne) em.createNamedQuery("findProprio").setParameter("id", chien1.getId()).getSingleResult();
         System.out.println(proprio1);
 
-
+        final HttpServer server = startServer();
+        System.out.println(String.format("Jersey app started with WADL available at "
+                + "%sapplication.wadl\nHit enter to stop it...", BASE_URI));
+        System.in.read();
+        server.stop();
     }
 
 

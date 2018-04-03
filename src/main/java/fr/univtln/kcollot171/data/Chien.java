@@ -1,8 +1,10 @@
 package fr.univtln.kcollot171.data;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 
+@XmlRootElement
 @Entity
 public class Chien {
     @Id

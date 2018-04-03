@@ -12,26 +12,28 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <jersey-version>1.18.1</jersey-version>
+    <jersey.version>2.25</jersey.version>
   </properties>
-
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.glassfish.jersey</groupId>
+        <artifactId>jersey-bom</artifactId>
+        <version>${jersey.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
   <dependencies>
     <dependency>
       <groupId>com.sun.jersey</groupId>
       <artifactId>jersey-grizzly2</artifactId>
       <version>${jersey-version}</version>
     </dependency>
-
     <dependency>
-      <groupId>com.sun.jersey</groupId>
-      <artifactId>jersey-json</artifactId>
-      <version>${jersey-version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>com.sun.jersey</groupId>
-      <artifactId>jersey-client</artifactId>
-      <version>${jersey-version}</version>
+      <groupId>org.glassfish.jersey.containers</groupId>
+      <artifactId>jersey-container-grizzly2-http</artifactId>
     </dependency>
 
     <dependency>
@@ -51,6 +53,11 @@
       <groupId>org.postgresql</groupId>
       <artifactId>postgresql</artifactId>
       <version>9.3-1100-jdbc41</version>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish.jersey.core</groupId>
+      <artifactId>jersey-server</artifactId>
+      <version>2.25</version>
     </dependency>
   </dependencies>
 
