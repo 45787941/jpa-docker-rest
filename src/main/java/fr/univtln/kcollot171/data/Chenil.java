@@ -10,7 +10,7 @@ public class Chenil {
     private int idChenil;
     private String nomChenil;
     
-    @OneToMany(mappedBy = "idChenil")
+    @OneToMany(mappedBy = "chenil")
     private List<Chien> listeChien;
 
     public Chenil(String nomChenil) {

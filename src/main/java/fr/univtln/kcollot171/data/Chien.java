@@ -1,21 +1,28 @@
 package fr.univtln.kcollot171.data;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 
 @XmlRootElement
 @Entity
+@NamedQueries({@NamedQuery(name = "findById", query = "select p from Chien p where p.idC = :id"),
+              @NamedQuery(name = "findAll", query = "select p from Chien p")})
 public class Chien {
+    @XmlElement
     @Id
     @GeneratedValue
     private int idC;
+    @XmlElement
     private String nom;
+    @XmlElement
     private String race;
     @ManyToMany(cascade = CascadeType.REMOVE)
     private List<Pathologie> listePathologie;
+    @XmlElement
     @ManyToOne
-    private Chenil idChenil;
+    private Chenil chenil;
 
     public Chien(String nom, String race, List<Pathologie> listePathologie) {
         this.nom = nom;
@@ -63,12 +70,34 @@ public class Chien {
         this.race = race;
     }
 
-    public Chenil getIdChenil() {
-        return idChenil;
+    public Chenil getChenil() {
+        return chenil;
     }
 
-    public void setIdChenil(Chenil idChenil) {
-        this.idChenil = idChenil;
+    public void setChenil(Chenil chenil) {
+        this.chenil = chenil;
+    }
+
+    public static List<Chien> findAll(){
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("testpostgresqllocal");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction t = em.getTransaction();
+        t.begin();
+        List<Chien> chiens = em.createNamedQuery("findAll").getResultList();
+        t.commit();
+        em.close();
+        return chiens;
+    }
+
+    public static Chien findById(int id){
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("testpostgresqllocal");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction t = em.getTransaction();
+        t.begin();
+        Chien chien = (Chien)em.createNamedQuery("findAll").setParameter("id", id).getSingleResult();
+        t.commit();
+        em.close();
+        return chien;
     }
 
     @Override
@@ -77,7 +106,9 @@ public class Chien {
                 "idC=" + idC +
                 ", nom='" + nom + '\'' +
                 ", race='" + race + '\'' +
-                ", idChenil=" + idChenil +
+                ", chenil=" + chenil +
                 '}';
     }
+
+
 }

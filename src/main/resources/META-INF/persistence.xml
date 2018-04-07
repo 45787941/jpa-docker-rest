@@ -11,7 +11,8 @@
             <!-- Les paramètres de connexions -->
             <property name="javax.persistence.target-database" value="PostgreSQL"/>
             <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
-            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://192.168.99.100:5432/test"/>
+            <!--property name="javax.persistence.jdbc.url" value="jdbc:postgresql://192.168.99.100:5432/test"/-->
+            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/test"/>
             <property name="javax.persistence.jdbc.user" value="test"/>
             <property name="javax.persistence.jdbc.password" value="test"/>
 
