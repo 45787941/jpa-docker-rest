@@ -12,6 +12,8 @@ import java.util.Observable;
 
 public class ChienManager extends Observable {
     final List<Chien> chiens = new ArrayList<>();
+    private final EntityManagerFactory emf = Persistence.createEntityManagerFactory("testpostgresqllocal");
+    private final EntityManager em = emf.createEntityManager();
 
     public ChienManager(){
 
@@ -26,43 +28,31 @@ public class ChienManager extends Observable {
     }
 
     public void deleteChien(int id){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("testpostgresqllocal");
-        EntityManager em = emf.createEntityManager();
         Chien chien = chiens.get(id);
         EntityTransaction t = em.getTransaction();
         t.begin();
         em.remove(chien);
         t.commit();
-        em.close();
     }
 
     public void majChien(Chien chien){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("testpostgresqllocal");
-        EntityManager em = emf.createEntityManager();
         EntityTransaction t = em.getTransaction();
         t.begin();
         em.merge(chien);
         t.commit();
-        em.close();
     }
 
     public void addChien(String nom, String race){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("testpostgresqllocal");
-        EntityManager em = emf.createEntityManager();
         EntityTransaction t = em.getTransaction();
         t.begin();
         em.persist(new Chien(nom, race));
         t.commit();
-        em.close();
     }
 
     public void addChien(Chien chien){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("testpostgresqllocal");
-        EntityManager em = emf.createEntityManager();
         EntityTransaction t = em.getTransaction();
         t.begin();
         em.persist(chien);
         t.commit();
-        em.close();
     }
 }
